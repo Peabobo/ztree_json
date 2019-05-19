@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="ztree/css/zTreeStyle/zTreeStyle.css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="ztree/js/jquery.ztree.core.js"></script>
+    <script>
+        var setting={
+            data : {
+                key : {
+                    title : "title"
+                },
+                simpleData : {
+                    enable : false
+                }
+            },
+            view:{
+                showIcon:false,//是否显示包图标
+                showline:true
+            }
+        };
+
+        function buildTreeNode(jsonobj){
+            var rootNode=[]
+            for(key in jsonobj){
+                var obj ={}
+                if(typeof(jsonobj[[key]]) =='object'){
+                    obj.name=key;
+                    obj.children=buildTreeNode(jsonobj[key]);
+                    rootNode.push(obj)
+                }else{
+                    obj.name=key+":"+jsonobj[key];
+                    rootNode.push(obj)
+                }
+            }
+            return rootNode;
+        }
+        $(function(){
+            var data={
+                "name":"程兴刚",
+                "age" :28,
+                "taste":["篮球","cumputer","羽毛球"],
+                "father":{"name":"程敬波","age":54}
+            }
+
+            console.log(buildTreeNode(data))
+            var treeNode=[{name:"JSON",children:[]}]
+            console.log(JSON.stringify(treeNode));
+            $.fn.zTree.init($("#treeDemo"), setting, buildTreeNode(data));
+        })
+
+    </script>
+
+
+</head>
+<body>
+    <pre id="jsonpre"></pre>
+    <pre>
+        <code id="jsoncode"></code>
+    </pre>
+    <div class="zTreeDemoBackground left">
+        <ul id="treeDemo" class="ztree"></ul>
+    </div>
+</body>
+</html>

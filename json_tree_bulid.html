@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="jquery-3.3.1.min.js"></script>
+   <!-- var json=[
+    {name:"JSON",
+    children:[{name:"name:程兴刚"},
+    {name:"age:28"},
+    {name:"taste",children:[{name:"0:篮球"},{name:"1:cumputer"},{name:"2:羽毛球"}]}
+    ]}
+    ]
+    "taste":["篮球","cumputer","羽毛球"]
+    -->
+    <script>
+
+        $.fn.buildTreeNode=function(){
+        }
+
+
+        function buildTreeNode(jsonobj,rootNode){
+            for(key in jsonobj){
+                var obj ={name:null,children:[]}
+                if(typeof(jsonobj[[key]]) =='object'){
+                    obj.name=key;
+                    obj.children=buildTreeNode(jsonobj[key],obj.children);
+                    rootNode.push(obj)
+                }else{
+                    obj.name=key+":"+jsonobj[key];
+                    rootNode.push(obj)
+                }
+            }
+            return rootNode;
+        }
+        $(function () {
+            //var treeNode=[{name:"JSON"}]
+            /*var data={
+                "name":"程兴刚",
+                "age" :28
+            }*/
+
+            var data={
+                "name":"程兴刚",
+                "age" :28,
+                "taste":["篮球","cumputer","羽毛球"],
+                "father":{"name":"程敬波","age":54}
+            }
+            console.log(buildTreeNode(data,[]))
+        })
+
+    </script>
+
+
+</head>
+<body>
+    <pre id="jsonpre"></pre>
+    <pre>
+        <code id="jsoncode"></code>
+    </pre>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="ztree/css/zTreeStyle/zTreeStyle.css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="ztree/js/jquery.ztree.core.js"></script>
+    <script src="ztree/js/jquery.ztree.exedit.js"></script>
+    <script src="ztree/js/jquery.ztree.excheck.js"></script>
+    <script src="ZTree_JSON.js"></script>
+    <script>
+        var setting={
+            data : {
+                key : {
+                    title : "title"
+                },
+                simpleData : {
+                    enable : false
+                }
+            },
+            view:{
+                /*//鼠标移动到节点时显示用户自定义控件*/
+                addHoverDom: addHoverDom,
+                removeHoverDom: removeHoverDom, /*//离开节点时的操作*/
+                //fontCss: getFontCss, /*//个性化样式*/
+                showIcon:false,
+                showline:true
+            },
+            edit:{
+                enable: true,
+                editNameSelectAll: true,
+                showRemoveBtn:true,
+                showRenameBtn:true,
+                removeTitle:'删除',
+                removeTitle:'修改'
+            },
+            /*callback: {
+                onClick: zTreeOnClick, //单击事件
+                onRemove: onRemove, //移除事件
+                onRename: onRename //修改事件
+            }*/
+        };
+        function addHoverDom(treeId, treeNode) {
+
+            var sObj = $("#" + treeNode.tId + "_span"); //获取节点信息
+            if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+
+            var addStr = "<span class='button add' id='addBtn_" + treeNode.tId + "' title='新增子节点' onfocus='this.blur();'></span>"; //定义添加按钮
+            sObj.after(addStr); //加载添加按钮
+            var btn = $("#addBtn_"+treeNode.tId);
+
+            //绑定添加事件，并定义添加操作
+            if (btn) btn.bind("click", function(){
+                //alert(1)
+                var zTree = $.fn.zTree.getZTreeObj('treeDemo');
+                //将新节点添加到数据库中
+                //var name='NewNode';
+                var newNode = {name:"key:value"};
+                newNode = zTree.addNodes(treeNode, newNode);
+                var node = zTree.getNodeByParam("id", newNode, null);
+                zTree.selectNode(node);
+                //zTree.addNodes(treeNode, {children:[{name:"key:value"}]});
+                /*$.post('./index.php?r=data/addtree&pid='+treeNode.id+'&name='+name,function (data) {
+                    var newID = data; //获取新添加的节点Id
+                    zTree.addNodes(treeNode, {id:newID, pId:treeNode.id, name:name}); //页面上添加节点
+                    var node = zTree.getNodeByParam("id", newID, null); //根据新的id找到新添加的节点
+                    zTree.selectNode(node); //让新添加的节点处于选中状态
+                });*/
+            });
+        };
+
+        function removeHoverDom(treeId, treeNode) {
+            $("#addBtn_"+treeNode.tId).unbind().remove();
+        };
+        var data={
+            "name":"程兴刚",
+            "age" :28,
+            "taste":[[{name:'足球',around:15},{name:'足球',around:15},{name:'足球',around:15}],{name:'足球',around:15},"cumputer","羽毛球"],
+            "father":{"name":"程敬波","age":54}
+        }
+        //var data=['漩涡鸣人','春野樱','日向雏田'];
+        /*var data={
+            "father": {
+                "name": "程敬波",
+                "age": 54
+            }
+        }*/
+        /*var data ={
+            "name": "程敬波",
+            "age": 54
+        }*/
+        $(function(){
+            $("#jsonpre").html("<code>"+JSON.stringify(data,null,4)+"</code>")
+            var ZtreeJson=$.jsonBuildZtree(data);
+            console.log("ztreeJson:"+JSON.stringify(ZtreeJson))
+            $ztreeobj=$.fn.zTree.init($("#treeDemo"), setting, ZtreeJson);
+            $ztreeobj.expandAll(true);
+        })
+
+        function save(){
+            var zTree = $.fn.zTree.getZTreeObj('treeDemo');
+            /*var onde=zTree.getNodes();
+            var json=zTreefromatJson(onde[0].children);*/
+            var json= $.zTreefromatJson(zTree);
+            console.log(JSON.stringify(json));
+            $("#jsonpre").html("<code>"+JSON.stringify(json,null,4)+"</code>")
+        }
+
+
+    </script>
+
+
+
+</head>
+<body>
+
+    <div class="zTreeDemoBackground left">
+        <ul id="treeDemo" class="ztree"></ul>
+    </div>
+    <button onclick="save();">提交</button>
+    <pre id="jsonpre" width="50%"></pre>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form id="vform">
+        <p>姓名：<input type="text" name="name"></p>
+        <p>年龄：<input type="text" name="age"></p>
+        <p><button type="button" id="save">保存</button>
+            <button type="button" id="check">审核</button>
+        </p>
+    </form>
+</body>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script>
+    var flag=0;
+    function validform() {
+        return $("#vform").validate({
+            rules : {
+                name : {
+                    required : function () {return flag == 1},
+                    minlength : 2
+                },
+                age : {
+                    required : function () {return flag == 1},
+                    number:true
+
+            },
+            messages : {
+                name : {
+                    required : "姓名不能为空",
+                    minlength : "最少2个字符",
+                },
+                age : {
+                    required : "年龄必填",
+                    number : "必须填数字"
+                }
+            }
+        });
+    }
+    $(validform());
+    $("#save").click(function() {
+        flag=0;
+        if (validform().form()) {
+           alert("保存成功")
+        } else {
+        }
+    });
+    $("#check").click(function() {
+        flag=1;
+        if (validform().form()) {
+            alert("保存成功")
+        } else {
+        }
+    });
+</script>
+</html>

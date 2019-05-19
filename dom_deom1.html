@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .hidden{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="fromdiv">
+
+        <button id="addbutton" type="button" >
+            新增
+        </button>
+        <button id="save" type="button" >
+            提交
+        </button>
+    </div>
+    <p id="adddom" class="hidden">
+        演示删除
+        <input name="img" id="img" value="1">
+        <button type="button" onclick="deleteself(this)">删除1</button>
+
+    </p>
+</body>
+<script src="jquery-3.3.1.min.js"></script>
+<script>
+    var items=[];
+    function deleteself(obj){
+        $(obj).parent().remove();
+    }
+
+    $(function(){
+        $("#addbutton").click(function(){
+            $(this).before($("#adddom").prop("outerHTML"));
+            var newdom=$(this).prev().removeClass("hidden");
+        });
+
+        $("#save").click(function(){
+           /*var obj=document.getElementsByClassName("img");
+            alert(obj[1]);
+            console.log(obj);*/
+            $("#fromdiv input[name='img']").each(function(j,item){
+                items.push(item.value);
+            });
+            console.log(items);
+        });
+    });
+
+
+</script>
+</html>
