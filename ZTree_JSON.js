@@ -28,6 +28,7 @@ function buildZtreeChildren(jsonobj){
         }
     }
 	删除一行注释，新加一个标签
+    	新建一个分支
     return rootNode;
 }*/
 $.jsonBuildZtree =function(data){
