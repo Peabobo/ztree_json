@@ -27,7 +27,7 @@ function buildZtreeChildren(jsonobj){
             rootNode.push(obj)
         }
     }
-	我又新加了一行注释
+	删除一行注释，新加一个标签
     return rootNode;
 }*/
 $.jsonBuildZtree =function(data){
