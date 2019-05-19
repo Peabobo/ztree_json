@@ -11,7 +11,7 @@ function buildZtreeChildren(jsonobj){
             rootNode.push(obj)
         }
     }
-
+	
     return rootNode;
 }
 /*function buildZtreeChildren(jsonobj){
@@ -27,7 +27,7 @@ function buildZtreeChildren(jsonobj){
             rootNode.push(obj)
         }
     }
-	这是一行注释
+	
     return rootNode;
 }*/
 $.jsonBuildZtree =function(data){
